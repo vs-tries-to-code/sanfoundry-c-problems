@@ -8,7 +8,7 @@ void Transpose(int k, float a[k][k],float b[k][k]);
 int main(){
     int k;
     printf("Enter rows of square matrix: ");
-    scanf("%f", &k);
+    scanf("%d", &k);  
     float matrix[k][k];
     printf("Enter elements of matrix\n");
     for (int i=0; i<k; i++){
@@ -19,7 +19,7 @@ int main(){
     }
     float d=Det(k, matrix);
     if (d==0){
-        printf("Matrix is invertible");
+        printf("Matrix is not invertible");
     }
     else{
         cofactor(k, matrix);
@@ -28,28 +28,23 @@ int main(){
 }
 
 float Det(int k, float a[k][k]){
-    float b[k-1][k-1];
+    float b[k-1][k-1]; float det=0;
     if (k==1){
         return (a[0][0]);
     }
     else{
         float s=1;
-        float det=0;
         for (int c=0; c<k; c++){
             int m=0, n=0;
-            for (int i=0; i<n; i++){
-                for (int j=0; j<n; j++){
-                        b[i][j]=0;
-                        if (i!=0 && c!=j){
-                            if (n<(k-2)){
-                                n++;
-                            }
-                            else{
-                                n=0;
-                                m++;
-                            }
-                        }
+            for (int i=1; i<k; i++){
+                for (int j=0; j<k; j++){
+                    if (j!=c){
+                        b[m][n]=a[i][j];
+                        n++;
+                    }
                 }
+                n=0;
+                m++;
             }
             det=det+ s*(a[0][c]* Det(k-1,b));
             s=-s;
@@ -94,7 +89,7 @@ void Transpose(int k, float a[k][k], float cofac[k][k]){
     float d=Det(k, a);
     for (int i=0; i<k; i++){
         for (int j=0; j<k; j++){
-            printf("%f", inverse[i][j]/d);
+            printf("%f  ", inverse[i][j]/d);
         }
         printf("\n");
     }
